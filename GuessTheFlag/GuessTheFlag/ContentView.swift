@@ -12,16 +12,31 @@ struct ContentView: View {
     @State var correctAnswer = Int.random(in: 0...2)
     
     @State private var showingScore = false
+    @State private var showingGameOver = false
     @State private var scoreTitle = ""
+    @State private var score: Int = 0
+    @State private var questionNumber: Int = 0
     
     func flagTapped(_ number: Int) {
+        questionNumber += 1
         if number == correctAnswer {
             scoreTitle = "Correct"
+            score += 1
         } else {
-            scoreTitle = "Wrong"
+            scoreTitle = "Wrong! That's the flag of \(countries[number])"
+        }
+        
+        guard questionNumber != 8 else {
+            showingGameOver = true
+            return
         }
         
         showingScore = true
+    }
+    
+    func resetGame() {
+        score = 0
+        questionNumber = 1
     }
     
     func askQuestion() {
@@ -47,9 +62,14 @@ struct ContentView: View {
                 Spacer()
                 Spacer()
                 
-                Text("Score: ???")
-                    .foregroundColor(.white)
-                    .font(.title.bold())
+                HStack(alignment: .center) {
+                    Spacer()
+                    Text("Score:")
+                    TextField("0", value:  $score, format: .number)
+                    Spacer()
+                }
+                .foregroundColor(.white)
+                .font(.title.bold())
                 
                 Spacer()
                 
@@ -72,13 +92,18 @@ struct ContentView: View {
                 
                 ForEach(0..<3) { number in
                     Button {
-                       flagTapped(number)
+                        flagTapped(number)
                     } label: {
                         Image(countries[number])
                             .renderingMode(.original)
-                            .clipShape(Capsule())
                             .shadow(radius: 5)
+                            .clipShape(Capsule())
                     }
+                }
+            }
+            .alert("Game Over\n Total score is \(score)", isPresented: $showingGameOver) {
+                Button("New game") {
+                    resetGame()
                 }
             }
             .padding()
@@ -86,7 +111,7 @@ struct ContentView: View {
         .alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
         } message: {
-            Text("Your score is ???")
+            Text("Score is \(score)")
         }
     }
 }
