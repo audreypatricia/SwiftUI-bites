@@ -94,10 +94,7 @@ struct ContentView: View {
                     Button {
                         flagTapped(number)
                     } label: {
-                        Image(countries[number])
-                            .renderingMode(.original)
-                            .shadow(radius: 5)
-                            .clipShape(Capsule())
+                        FlagImage(country: countries[number])
                     }
                 }
             }
@@ -119,5 +116,16 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct FlagImage: View {
+    var country: String
+    
+    var body: some View {
+        Image(country)
+            .renderingMode(.original)
+            .shadow(radius: 5)
+            .clipShape(Capsule())
     }
 }
