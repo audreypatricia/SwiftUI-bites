@@ -24,7 +24,7 @@ struct ContentView: View {
         return Calendar.current.date(from: components) ?? Date.now
     }
     
-    func calculateBedtime() {
+    var idealBedtime: String {
         do {
             let config = MLModelConfiguration()
             let model = try SleepCalculator(configuration: config)
@@ -34,50 +34,37 @@ struct ContentView: View {
             let minute = (components.minute ?? 0) * 60
             let prediction = try model.prediction(wake: Double(hour + minute), estimatedSleep: sleepAmount, coffee: Double(coffeeAmount))
             let sleepTime = wakeUp - prediction.actualSleep
-            alertTitle = "Your idea bedtime is:"
-            alertMessage = sleepTime.formatted(date: .omitted, time: .shortened)
-            showingAlert = true
+            return sleepTime.formatted(date: .omitted, time: .shortened)
         } catch {
-            alertTitle = "Error"
-            alertMessage = "Sorry, there was a problem calculating your bedtime."
-            showingAlert = true
+            return "Sorry, there was a problem calculating your bedtime."
         }
     }
     
     var body: some View {
         NavigationView {
             Form {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("When do you want to wake up?")
-                        .font(.headline)
-                    
+                Section("When do you want to wake up?") {
                     DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
                         .labelsHidden()
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Desired amount of sleep")
-                        .font(.headline)
-                    
+                Section("Desired amount of sleep") {
                     Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12)
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Daily coffee intake")
-                        .font(.headline)
-                    
-                    Stepper(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", value: $coffeeAmount, in: 1...20)
+                Section("Daily coffee intake") {
+                    Picker("Your coffee intake daily", selection: $coffeeAmount) {
+                        ForEach(1...20, id: \.self) { number in
+                            Text(String(number))
+                        }
+                    }
+                }
+                
+                Section("Your ideal bedtime") {
+                    Text(idealBedtime)
                 }
             }
-            .alert(alertTitle, isPresented: $showingAlert) {
-                Button("OK") {}
-            } message: {
-                Text(alertMessage)
-            }
             .navigationTitle("BetterRest")
-            .toolbar {
-                Button("Calculate", action: calculateBedtime)
-            }
         }
     }
 }
