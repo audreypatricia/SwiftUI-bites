@@ -16,9 +16,21 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var totalScore: Int = 0
+    
     func addNewWord() {
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         guard answer.count > 0 else { return }
+        
+        guard answer != rootWord else {
+            displayError(title: "Word matches the start word", message: "Don't cheat!")
+            return
+        }
+        
+        guard isAtLeastThreeLetters(word: answer) else {
+            displayError(title: "Word to short", message: "Try forming longer words")
+            return
+        }
         
         guard isOriginal(word: answer) else {
             displayError(title: "Word used already", message: "Be more original")
@@ -39,10 +51,14 @@ struct ContentView: View {
             usedWords.insert(answer, at: 0)
         }
         
+        calculateScore(word: answer)
         newWord = ""
     }
     
     func startGame() {
+        totalScore = 0
+        usedWords = []
+        
         if let startWordURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordURL) {
                 let allWords = startWords.components(separatedBy: "\n")
@@ -56,6 +72,10 @@ struct ContentView: View {
     
     func isOriginal(word: String) -> Bool {
         !usedWords.contains(word)
+    }
+    
+    func isAtLeastThreeLetters(word: String) -> Bool {
+        return word.count >= 3
     }
     
     func isPossible(word: String) -> Bool {
@@ -86,6 +106,11 @@ struct ContentView: View {
         showingError = true
     }
     
+    func calculateScore(word: String) {
+        let score = (word.count) * 2
+        totalScore += score
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -104,10 +129,20 @@ struct ContentView: View {
                             }
                         }
                     }
+                    
+                    Section("Total Score") {
+                        Text(String(totalScore))
+                    }
                 }
+                .listStyle(GroupedListStyle())
             }
         }
         .navigationTitle(rootWord)
+        .toolbar(content: {
+            ToolbarItem(placement: .bottomBar) {
+                Button("New Game", action: startGame)
+            }
+        })
         .onSubmit(addNewWord)
         .onAppear(perform: startGame)
         .alert(errorTitle, isPresented: $showingError) {
