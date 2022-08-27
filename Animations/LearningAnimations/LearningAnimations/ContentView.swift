@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ImplicitAnimations: View {
     @State private var animationAmount = 1.0
     
+    // These are animations that are set on views and are implictly animating it with a state change
     var body: some View {
         
         // MARK: - Implicit Animations
@@ -64,6 +65,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ImplicitAnimations()
     }
 }
