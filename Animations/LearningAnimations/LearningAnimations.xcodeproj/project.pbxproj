@@ -13,6 +13,7 @@
 		25D1232728B644B200421482 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25D1232628B644B200421482 /* Preview Assets.xcassets */; };
 		25D1232E28BA1CE200421482 /* AnimationBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1232D28BA1CE200421482 /* AnimationBinding.swift */; };
 		25D1233028BA205900421482 /* ExplicitAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1232F28BA205900421482 /* ExplicitAnimation.swift */; };
+		25D1233228BA234700421482 /* AnimationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1233128BA234700421482 /* AnimationStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		25D1232628B644B200421482 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		25D1232D28BA1CE200421482 /* AnimationBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationBinding.swift; sourceTree = "<group>"; };
 		25D1232F28BA205900421482 /* ExplicitAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplicitAnimation.swift; sourceTree = "<group>"; };
+		25D1233128BA234700421482 /* AnimationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				25D1232528B644B200421482 /* Preview Content */,
 				25D1232D28BA1CE200421482 /* AnimationBinding.swift */,
 				25D1232F28BA205900421482 /* ExplicitAnimation.swift */,
+				25D1233128BA234700421482 /* AnimationStack.swift */,
 			);
 			path = LearningAnimations;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25D1233228BA234700421482 /* AnimationStack.swift in Sources */,
 				25D1233028BA205900421482 /* ExplicitAnimation.swift in Sources */,
 				25D1232228B644B000421482 /* ContentView.swift in Sources */,
 				25D1232E28BA1CE200421482 /* AnimationBinding.swift in Sources */,
@@ -275,6 +279,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LearningAnimations/Preview Content\"";
+				DEVELOPMENT_TEAM = 648R9AJ3KY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -304,6 +309,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LearningAnimations/Preview Content\"";
+				DEVELOPMENT_TEAM = 648R9AJ3KY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
