@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var scoreTitle = ""
     @State private var score: Int = 0
     @State private var questionNumber: Int = 0
+    @State private var rotationAmount = 0.0
+    @State private var tappedFlag: Int = 0
     
     func flagTapped(_ number: Int) {
         questionNumber += 1
@@ -32,6 +34,10 @@ struct ContentView: View {
         }
         
         showingScore = true
+        
+        withAnimation(.spring()) {
+            self.rotationAmount += 360
+        }
     }
     
     func resetGame() {
@@ -42,6 +48,10 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+    }
+    
+    var animation: Animation {
+        Animation.easeOut
     }
     
     var body: some View {
@@ -92,10 +102,12 @@ struct ContentView: View {
                 
                 ForEach(0..<3) { number in
                     Button {
+                        tappedFlag = number
                         flagTapped(number)
                     } label: {
                         FlagImage(country: countries[number])
                     }
+                    .rotation3DEffect(.degrees(number == tappedFlag ? rotationAmount : 0), axis: (x: 0, y: 1, z: 0))
                 }
             }
             .alert("Game Over\n Total score is \(score)", isPresented: $showingGameOver) {
